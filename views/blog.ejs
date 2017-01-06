@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <!--<link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">-->
+    <link rel="stylesheet" href="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/css/bootstrap.min.css">
+</head>
+<body style="width: 100%;">
+<div style="width: 80%;margin: 0 auto;">
+    <ul class="nav nav-tabs">
+        <li role="presentation"><a href="/">首页</a></li>
+        <li role="presentation" class="active"><a href="blog">博客</a></li>
+    </ul>
+    <div style="width:100%;margin-top: -20px">
+        <h2>博客列表</h2>
+        <div>
+            <div style="float: left;width: 75%;height: 500px;overflow: scroll">
+                <ul>
+                    <% for(var i = 0;i< blog.length;i++){%>
+                        <li style="background-color: #c4ff9e;margin: 10px 0;width:95%">
+                            <div>标题：<%= blog[i].title %></div>
+                            <div><span>作者：<%= blog[i].author %></span><span>创作时间：<%= blog[i].createTime %></span></div>
+                            <div style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap">
+                                <a href="/blogDetail?id=<%=blog[i]._id%>"> 内容：<%= blog[i].content %></a>
+                            </div>
+                        </li>
+                    <% } %>
+                </ul>
+            </div>
+            <div style="background-color: #f4cdff;width: 25%;float: right;height: 500px;overflow: scroll">
+                <% for(var i = 0;i< 30;i++){%>
+                <li style="background-color: #c4ff9e;margin: 10px 0;width:95%">
+                    哈哈哈  待完善
+                </li>
+                <% } %>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <!--<script src="../node_modules/jquery/dist/jquery.min.js"></script>-->
+    <!--<script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>-->
+    <script src="http://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    <script>
+
+    </script>
+</div>
+</body>
+</html>
