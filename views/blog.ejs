@@ -4,13 +4,13 @@
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <!--<link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">-->
-    <link rel="stylesheet" href="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
 </head>
 <body style="width: 100%;">
 <div style="width: 80%;margin: 0 auto;">
     <ul class="nav nav-tabs">
         <li role="presentation"><a href="/">首页</a></li>
-        <li role="presentation" class="active"><a href="blog">博客</a></li>
+        <li role="presentation" class="active"><a href="/blog">博客</a></li>
     </ul>
     <div style="width:100%;margin-top: -20px">
         <h2>博客列表</h2>
@@ -18,9 +18,9 @@
             <div style="float: left;width: 75%;height: 500px;overflow: scroll">
                 <ul>
                     <% for(var i = 0;i< blog.length;i++){%>
-                        <li style="background-color: #c4ff9e;margin: 10px 0;width:95%">
+                        <li style="background-color: #c4ff9e;margin: 2px 0;width:95%">
                             <div>标题：<%= blog[i].title %></div>
-                            <div><span>作者：<%= blog[i].author %></span><span>创作时间：<%= blog[i].createTime %></span></div>
+                            <div><span>作者：<%= blog[i].author %></span><span style="padding-left: 10px">创作时间：<%= blog[i].createTime %></span></div>
                             <div style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap">
                                 <a href="/blogDetail?id=<%=blog[i]._id%>"> 内容：<%= blog[i].content %></a>
                             </div>
@@ -28,13 +28,17 @@
                     <% } %>
                 </ul>
             </div>
-            <div style="background-color: #f4cdff;width: 25%;float: right;height: 500px;overflow: scroll">
-                <% for(var i = 0;i< 30;i++){%>
-                <li style="background-color: #c4ff9e;margin: 10px 0;width:95%">
-                    哈哈哈  待完善
-                </li>
+            <div style="width: 25%;float: right;height: 500px;overflow: scroll">
+                <% for(var key in typeList){ %>
+                <div id="list" style="background-color: #c4ff9e;width:95%">
+                    <p><%= key %></p>
+                    <ul id="inOut" style="display: none;">
+                        <% for(var i=0;i< typeList[key].length;i++){ %>
+                        <li style="text-indent: 1em"><a href="/blogDetail?id=<%=typeList[key][i]._id%>"><%= typeList[key][i].title %></a></li>
+                        <% } %>
+                    </ul>
+                </div>
                 <% } %>
-
             </div>
         </div>
 
@@ -43,10 +47,17 @@
 
     <!--<script src="../node_modules/jquery/dist/jquery.min.js"></script>-->
     <!--<script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>-->
-    <script src="http://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
-    <script src="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
     <script>
-
+//        $('#list').toggle(function () {
+//            $(this).siblings('ul').show();
+//        },function () {
+//            $(this).siblings('ul').hide();
+//        });
+        $('#list p').click(function () {
+            $(this).siblings('ul').slideToggle();
+        })
     </script>
 </div>
 </body>

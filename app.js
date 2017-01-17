@@ -26,6 +26,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/users', users);
 
+app.use(function (req,res,next) {
+    res.header("Access-Control-Allow-Origin", '*');
+    res.header("Access-Control-Allow-Credentials", true);
+    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization, Accept,X-Requested-With");
+    res.header("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
+    res.header("Content-Type", "text/html;charset=utf-8");
+    next();
+})
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
@@ -46,14 +55,16 @@ app.use(function(err, req, res, next) {
 
 
 mongoose.connect("mongodb://localhost/myblog", {}, function(err) {
-    console.log('Mongoose default connection callback, err:' + err);
+    if(err){
+        console.error('Mongoose default connection callback, err:' + err);
+    }
 });
 
 mongoose.connection.on('connected', function () {
     console.log('Mongoose default connection open to ' );
 });
 mongoose.connection.on('error',function (err) {
-    console.log('Mongoose default connection open to ',err );
+    console.error('Mongoose default connection open to ',err );
 });
 mongoose.connection.on('disconnected', function () {
     console.log('Mongoose default connection disconnected');

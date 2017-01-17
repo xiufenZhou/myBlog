@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var blogModel = require('../schema/blogModel');
+var _ = require('underscore');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -9,18 +10,18 @@ router.get('/', function(req, res, next) {
 
 router.get('/blog', function(req, res, next) {
     var blogList = [];
-
+    var typeList = {};
     blogModel.find().exec(function (err,data) {
-
         if(!err && !!data){
             blogList = data;
+            typeList = _.groupBy(blogList,'type');
+            console.log('typeList==',typeList);
         }
-        res.render('blog', { title: '我的博客',blog:blogList });
+        res.render('blog', { title: '我的博客',blog:blogList,typeList:typeList });
     });
 });
 
 router.get('/blogDetail',function (req,res,next) {
-    console.log('hahhahahhah')
     var _id = req.query.id;
     var blogContent = {};
     blogModel.findById(_id).exec(function (err,data) {
@@ -28,22 +29,41 @@ router.get('/blogDetail',function (req,res,next) {
             blogContent = data;
         }
         res.render('content',{title:'我的博客',content:blogContent})
-
     });
 });
 
 router.post('/add',function (req,res) {
     var title = req.body.title;
     var content = req.body.content;
+    var type = req.body.type;
+    var d = new Date();
+    var Y = d.getFullYear();
+    var M = d.getMonth()+1;
+    M = M<10 ? '0'+M : M;
+    var D = d.getDate();
+    D = D<10 ? '0'+D : D;
+    var S = d.getHours();
+    S = S<10 ? '0'+ S: S;
+    var F = d.getMinutes();
+    F = F<10 ? '0'+F : F;
+    var m = d.getSeconds();
+    m = m<10 ? '0'+m : m;
+
+    var date = Y+'-'+M+'-'+D +' '+S+':'+F+':'+m;
+    console.log('date',date);
     var blog = new blogModel({
         title:title,
         author: 'zhouxiufen',
+        type:type,
         content:content,
-        createTime:Date.now()
+        createTime:date
     });
-    blog.save();
 
-    return res.sendStatus(200);
+    console.log('blog>>>>>>',blog);
+    blog.save(function (err) {
+        console.log('errrr',err);
+        return res.send({status : 200, info : blog});
+    });
 });
 
 module.exports = router;

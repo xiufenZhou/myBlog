@@ -7,8 +7,9 @@ var mongoose = require('mongoose');
 var blogSchema = new mongoose.Schema({
     title: String,
     author: String,
+    type:String,
     content: String,
-    time: Number
+    createTime: String
 });
 
 blogSchema.pre('save', function (next) {
